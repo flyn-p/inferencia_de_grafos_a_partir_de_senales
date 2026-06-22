@@ -1,0 +1,44 @@
+📁 Repository Structure & File Descriptions
+
+    optimizacion.py (The Algorithmic Core): 
+    Implements the foundational Kalofolias graph inference framework alongside the the proposed joint inference method. 
+    It uses a Grouped Lasso regularizer to force multiple graphs to share a common support and includes an Armijo 
+    backtracking line search rule for adaptive step-size calculation.
+    
+    sim_senales_y_matrices.py (Data Generation): Handles synthetic data simulation. It generates k graph topologies with
+    an identical random binomial support structure and synthesizes node signals using a zero-mean multivariate normal
+    distribution based on the pseudo-inverse of the Graph Laplacian matrix (L†).
+
+    utils.py (Utilities & Optimization Helpers): Contains essential auxiliary tools, such as converting raw node 
+    signals into pairwise distance matrices, reshaping flat upper-triangle vectors back into symmetric adjacency matrices, 
+    and caching the auxiliary selection matrix M to drastically accelerate gradient computations.
+
+    medir_error.py (Evaluation Metrics): Provides validation functions to measure algorithm performance, specifically 
+    computing the normalized Frobenius norm error and the symmetric difference of the graph support.
+
+    Ejemplo_inferencia.ipynb (Quick Start Notebook): A step-by-step notebook demonstrating a single execution of the joint
+    inference pipeline with customizable hyperparameters (α, β, λ, a0​).
+  
+    Ejemplo_de_experimentos.ipynb (Validation Notebook): Runs statistical Monte Carlo simulations over multiple iterations 
+    to evaluate the algorithm's average precision, error scaling, and sparsity metrics under varying experimental conditions.
+
+** Core Features & Framework
+
+    Joint Topology Inference: Rather than treating networks in isolation, this implementation leverages shared structural 
+    properties across multiple signal sets to infer a collection of graphs simultaneously.
+
+    Grouped Lasso Regularization: A custom proximal operator (prox_h utilizing a threshold function) penalizes non-overlapping 
+    edges, seamlessly driving the optimization problem toward solutions with a shared support matrix.
+
+    
+* Getting Started
+
+    To run a quick demonstration of the joint inference framework, open and execute Ejemplo_inferencia.ipynb. You can tune the
+    regularizer weights directly in the parameters cell:
+
+    alpha: Controls the logarithmic regularization which oblies every vertex to have neighbours.
+
+    beta: Controls the Frobenius norm regularization, increasing distributes the weights more evenly across the edges, thereby 
+    reducing the sparsity of the inferred graphs.
+
+    a: Controls the coupling strength that forces shared support among the k graphs.
